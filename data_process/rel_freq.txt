@@ -1,0 +1,309 @@
+total rel 471614
+on 103515
+wearing 61335
+of 39442
+near 37512
+in 35687
+behind 21672
+in front of 21626
+holding 11801
+on top of 11336
+next to 10810
+above 10541
+with 8639
+below 8215
+by 6445
+sitting on 5590
+under 4136
+on the side of 3691
+beside 3217
+standing on 2956
+inside 2530
+carrying 2325
+at 2098
+walking on 1862
+riding 1860
+standing in 1845
+around 1691
+covered by 1682
+hanging on 1622
+lying on 1608
+eating 1557
+watching 1477
+looking at 1455
+covering 1404
+sitting in 1194
+on the front of 1162
+hanging from 1051
+parked on 968
+riding on 916
+using 826
+covered in 746
+flying in 676
+sitting at 609
+walking in 575
+playing with 568
+full of 561
+filled with 555
+on the back of 547
+crossing 544
+swinging 516
+surrounded by 506
+standing next to 501
+reflected in 482
+covered with 456
+contain 441
+touching 427
+pulling 419
+pulled by 418
+flying 416
+leaning on 393
+hitting 393
+lying in 371
+standing by 371
+driving on 362
+sitting on top of 344
+throwing 340
+walking down 336
+surrounding 332
+parked in 331
+underneath 327
+growing in 311
+growing on 308
+standing behind 304
+standing near 299
+playing 292
+printed on 286
+attached to 279
+beneath 277
+mounted on 274
+facing 269
+talking on 265
+leaning against 256
+cutting 255
+resting on 239
+lying on top of 239
+driving 228
+floating in 228
+worn on 227
+catching 223
+grazing on 211
+standing in front of 193
+playing in 192
+topped with 189
+drinking 188
+on the bottom of 187
+walking with 184
+swimming in 173
+driving down 170
+hanging over 169
+waiting for 165
+close to 160
+pushed by 159
+pushing 159
+sitting next to 157
+playing on 152
+feeding 151
+between 138
+reading 135
+running on 133
+holding onto 132
+on the edge of 130
+tied to 128
+eating from 127
+painted on 127
+talking to 127
+reaching for 121
+perched on 121
+grazing in 118
+parked by 116
+sleeping on 115
+skiing on 112
+hanging above 111
+connected to 110
+stacked on 107
+stuck in 104
+standing beside 103
+standing at 103
+floating on 103
+wrapped around 103
+parked near 101
+parked next to 100
+working on 99
+parked at 98
+hanging in 98
+walking across 96
+plugged into 94
+seen through 93
+flying over 89
+parked along 88
+stuck on 87
+selling 87
+parked in front of 86
+looking out 86
+drinking from 85
+coming from 84
+sitting by 84
+wrapped in 84
+sitting in front of 82
+serving 80
+kicking 79
+petting 76
+standing on top of 75
+walking by 73
+lying inside 73
+hung on 72
+sitting with 71
+sitting inside 71
+walking along 69
+making 69
+sitting behind 68
+standing under 68
+walking through 67
+walking near 67
+running in 66
+going down 65
+followed by 64
+following 64
+on the other side of 64
+mounted to 63
+hanging off 62
+leading 62
+riding in 62
+chasing 61
+flying through 60
+flying above 59
+sniffing 59
+coming out of 59
+leaving 59
+licking 59
+boarding 57
+sitting near 56
+parked alongside 56
+biting 56
+walking behind 55
+parked behind 53
+looking in 53
+sitting under 52
+parked beside 51
+skiing in 51
+sitting beside 50
+growing near 50
+staring at 50
+helping 50
+walking next to 49
+hanging out of 49
+entering 48
+leaning over 48
+tied around 47
+draped over 47
+hugging 47
+walking toward 47
+growing behind 46
+exiting 45
+balancing on 45
+served on 45
+sewn on 44
+jumping over 44
+drawn on 44
+reflecting in 43
+looking into 43
+growing next to 42
+reflected on 41
+about to hit 40
+looking down at 40
+getting on 39
+walking towards 39
+walking up 39
+traveling on 38
+posing with 38
+observing 38
+approaching 37
+preparing 37
+wading in 36
+eating at 36
+pointing at 34
+jumping on 34
+mixed with 34
+grabbing 34
+displayed on 34
+opening 33
+climbing 32
+lying next to 32
+standing against 31
+scattered on 31
+working in 31
+growing along 31
+growing by 31
+chewing 30
+tossing 30
+going into 30
+taller than 29
+walking to 29
+piled on 28
+looking through 28
+typing on 28
+looking over 28
+eating in 28
+growing from 28
+coming down 28
+picking up 28
+washing 28
+trying to catch 27
+chained to 27
+sleeping in 27
+herding 27
+skiing down 27
+guiding 27
+decorated by 27
+decorating 27
+tying 26
+smoking 26
+running through 25
+decorated with 25
+cleaning 24
+smiling at 24
+slicing 24
+going through 23
+smelling 23
+dragging 23
+walking past 22
+enclosing 22
+shining through 22
+traveling down 21
+falling off 21
+skating on 21
+adjusting 21
+photographing 21
+worn around 21
+cooking 21
+jumping off 20
+walking into 20
+hang from 20
+blowing out 20
+sprinkled on 19
+towing 19
+kissing 19
+running across 18
+moving 17
+kept in 16
+hidden by 16
+splashing 15
+sitting around 14
+looking toward 14
+cooked in 12
+larger than 11
+displayed in 11
+in between 10
+brushing 10
+sitting atop 10
+pouring 8
+standing around 8
+buying 8
+smaller than 7
+longer than 5
+playing at 5
+shorter than 4
+bigger than 4
+higher than 4
+jumping in 4

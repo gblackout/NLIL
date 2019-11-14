@@ -1,0 +1,4 @@
+near: near,next to,on the side of,beside,around
+above: above,on top of
+below: below,under
+in: in,inside

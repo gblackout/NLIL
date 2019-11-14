@@ -1,0 +1,3 @@
+zero(int)
+even(int)
+succ(int,int)

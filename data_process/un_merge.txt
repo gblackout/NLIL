@@ -1,0 +1,13 @@
+car: car,cars
+wheel: wheel,tire,wheels,tires
+tree: tree,trees
+person: person,people,man,woman,boy,girl,lady,guy
+leaf: leaf,leaves
+street light: street light,traffic light
+letter: letter,letters
+shoe: shoe,shoes
+bush: bush,bushes
+door: door,doors
+window: window,windows
+pants: pants,jeans
+ear: ear,ears
