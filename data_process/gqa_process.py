@@ -149,6 +149,7 @@ def prep_car_data(data_root = '../../../dataset/gqa/scene_graph'):
     valid_domain_path = joinpath(output_path, 'valid_domains')
     test_domain_path = joinpath(output_path, 'test_domains')
 
+    os.mkdir(output_path)
     os.mkdir(fact_domain_path)
     os.mkdir(valid_domain_path)
     os.mkdir(test_domain_path)

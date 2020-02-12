@@ -1,3 +1,4 @@
 cd data_process
 
-python data_process $0
+p="../${1}"
+python gqa_process.py $p
