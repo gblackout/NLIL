@@ -609,7 +609,8 @@ class RuleLearner(nn.Module):
                 bs_name_ls.extend(['%s=%s' % (src_name, src_name_ls[j][bs_ind])
                                    for bs_ind, src_name in enumerate(src_name_ls[i])])
 
-        rule_name_ls = [['(%s)' % e for e in bs_name_ls] + ['!(%s)' % e for e in bs_name_ls]]
+        rule_name_ls = [['(%s)' % e for e in bs_name_ls] + [('(%s)' if cmd_args.no_negate else '!(%s)') % e
+                                                            for e in bs_name_ls]]
         last_level = len(logic_sample_ls) - 1
         for level_ind, level in enumerate(logic_sample_ls):
             if level_ind == last_level:

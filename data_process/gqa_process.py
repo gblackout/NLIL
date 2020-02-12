@@ -11,6 +11,7 @@ import random
 import os
 from collections import Counter
 import math
+import sys
 
 
 # [line_color, style, linewidth, alpha]
@@ -25,8 +26,8 @@ class GQADataset:
 
     def __init__(self, data_root):
 
-        self.val_sGraph = json.load(open(joinpath(data_root, 'scene_graph', 'val_sceneGraphs.json')))
-        self.train_sGraph = json.load(open(joinpath(data_root, 'scene_graph', 'train_sceneGraphs.json')))
+        self.val_sGraph = json.load(open(joinpath(data_root, 'val_sceneGraphs.json')))
+        self.train_sGraph = json.load(open(joinpath(data_root, 'train_sceneGraphs.json')))
         self.all_sGraph = dict([(k, v) for k, v in list(self.val_sGraph.items()) + list(self.train_sGraph.items())])
         self.img_dir = joinpath(data_root, 'images')
 
@@ -140,7 +141,8 @@ class GQADataset:
         print('valid', len(valid_set))
         print('train_valid_inter', len(train_set.intersection(valid_set)))
 
-def prep_car_data():
+
+def prep_car_data(data_root = '../../../dataset/gqa/scene_graph'):
     output_path = '../data/gqa'
 
     fact_domain_path = joinpath(output_path, 'fact_domains')
@@ -151,7 +153,6 @@ def prep_car_data():
     os.mkdir(valid_domain_path)
     os.mkdir(test_domain_path)
 
-    data_root = '../../../dataset/gqa'
     gqa = GQADataset(data_root)
     filter_under = 1500
     un_mergDict, rel_mergDict = {}, {}
@@ -268,4 +269,5 @@ def prep_car_data():
 if __name__ == '__main__':
 
     random.seed(10)
-    prep_car_data()
+
+    prep_car_data(sys.argv[1])
