@@ -25,7 +25,6 @@ class DomainDataset:
         fact_path_ls = [joinpath(dataset_path, 'fact.txt') if cmd_args.kb else joinpath(dataset_path, 'fact_domains')]
         if os.path.isfile(joinpath(dataset_path, 'train.txt')):
             fact_path_ls.append(joinpath(dataset_path, 'train.txt'))
-        # TODO debug
         valid_path_ls = [joinpath(dataset_path, 'valid.txt') if cmd_args.kb else joinpath(dataset_path, 'valid_domains')]
         test_path_ls = [joinpath(dataset_path, 'test.txt') if cmd_args.kb else joinpath(dataset_path, 'test_domains')]
 
@@ -37,8 +36,6 @@ class DomainDataset:
         self.fact_pred2domain_dict = preprocess_withDomain(pred_path, fact_path_ls, ent_path_ls)
         self.valid_pred2domain_dict = preprocess_withDomain(pred_path, valid_path_ls, ent_path_ls)
         self.test_pred2domain_dict = preprocess_withDomain(pred_path, test_path_ls, ent_path_ls)
-
-        # self.pred2domain_dict = preprocess_withDomain(pred_path, fact_path_ls, valid_path_ls, test_path_ls, ent_path_ls)
 
     def sample(self, pred2domain_dict, batch_size, allow_recursion, rotate, keep_array, tgt_pred_ls, bg_domain):
 

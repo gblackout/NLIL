@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 import json
 from tqdm import tqdm
 from os.path import join as joinpath
@@ -12,6 +14,7 @@ import os
 from collections import Counter
 import math
 import sys
+from common.utlis import makedir
 
 
 # [line_color, style, linewidth, alpha]
@@ -149,7 +152,7 @@ def prep_car_data(data_root = '../../../dataset/gqa/scene_graph'):
     valid_domain_path = joinpath(output_path, 'valid_domains')
     test_domain_path = joinpath(output_path, 'test_domains')
 
-    os.mkdir(output_path)
+    makedir(output_path, remove_old=True)
     os.mkdir(fact_domain_path)
     os.mkdir(valid_domain_path)
     os.mkdir(test_domain_path)
