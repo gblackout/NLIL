@@ -33,11 +33,13 @@ class DomainDataset:
         else:
             ent_path_ls = None
 
-        self.fact_pred2domain_dict = preprocess_withDomain(pred_path, fact_path_ls, ent_path_ls)
-        self.valid_pred2domain_dict = preprocess_withDomain(pred_path, valid_path_ls, ent_path_ls)
-        self.test_pred2domain_dict = preprocess_withDomain(pred_path, test_path_ls, ent_path_ls)
+        self.fact_pred2domain_dict, self.fact_domain_set = preprocess_withDomain(pred_path, fact_path_ls, ent_path_ls)
+        self.valid_pred2domain_dict, self.valid_domain_set = preprocess_withDomain(pred_path, valid_path_ls, ent_path_ls)
+        self.test_pred2domain_dict, self.test_domain_set = preprocess_withDomain(pred_path, test_path_ls, ent_path_ls)
 
     def sample(self, pred2domain_dict, batch_size, allow_recursion, rotate, keep_array, tgt_pred_ls, bg_domain):
+
+        tgt_pred_ls = [pn for pn in tgt_pred_ls if len(pred2domain_dict[pn]) > 0]
 
         iter_ls = [self.batch_iter(pred2domain_dict, batch_size, pn, allow_recursion, keep_array, bg_domain) for pn in tgt_pred_ls]
 
@@ -86,7 +88,6 @@ class DomainDataset:
 
         assert p_star != constants.IDENT_PHI
 
-        num_samples = self.get_numSamples(pred2domain_dict, p_star)
         is_unp = pred_register.is_unp(p_star)
 
         for domain in pred2domain_dict[p_star]:
@@ -169,6 +170,14 @@ class Domain:
         self.has_neg_sample = False
 
         self.unp_arr_ls, self.bip_arr_ls = None, None
+
+    def __eq__(self, other):
+        if isinstance(other, Domain):
+            return self.name == other.name
+        return NotImplemented
+
+    def __hash__(self):
+        return hash(self.name)
 
     def toArray(self, update=False, keep_array=False):
         """
@@ -387,14 +396,16 @@ def preprocess_withDomain(pred_path, fact_path_ls, ent_path_ls=None):
 
         return Domain(unp_ls, bip_ls, const2ind_dict, ind2const_dict, fact_dict)
 
+    domain_set = set()
     pred2domain_dict = dict((pred_name, []) for pred_name in pred_register.pred_dict)
     # a single file containing all facts, e.g. FB15K
     if os.path.isfile(fact_path_ls[0]):
         tqdm.write('Processing Single Domain..')
         d = parse_fact(fact_path_ls, global_const2ind, global_ind2const, verbose=True)
         d.name = 'default'
-        for k in pred2domain_dict.keys():
-            pred2domain_dict[k].append(d)
+        for pn in d.unp_ls + d.bip_ls:
+            pred2domain_dict[pn].append(d)
+            domain_set.add(d)
 
     # a folder containing fact files named with unique ids, e.g. GQA images
     elif os.path.isdir(fact_path_ls[0]):
@@ -409,11 +420,12 @@ def preprocess_withDomain(pred_path, fact_path_ls, ent_path_ls=None):
                 continue
             for pn in d.unp_ls + d.bip_ls:
                 pred2domain_dict[pn].append(d)
+                domain_set.add(d)
 
     else:
         raise ValueError
 
-    return pred2domain_dict
+    return pred2domain_dict, domain_set
 
 
 def preprocess(pred_path, fact_path):

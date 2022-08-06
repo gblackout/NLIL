@@ -47,32 +47,20 @@ def prep_dataset():
     fbd = None
 
     if tensorlog_dataset(cmd_args.data_root):
-        # fact_domain
+        # for KG datasets, there is only one domain (i.e., the entire KG itself)
+        # Therefore, we construct and keep the adjacency arrays throughout the experiments
+        fact_domain = list(dataset.fact_domain_set)[0]
+        test_domain = list(dataset.test_domain_set)[0]
 
-        # sample negative samples for tensorlog dataset, e.g. FB15K
-        fact_domain = list(dataset.fact_pred2domain_dict.values())[0][0]
-        test_domain = list(dataset.test_pred2domain_dict.values())[0][0]
-        valid_domain = list(dataset.valid_pred2domain_dict.values())[0][0]
+        fact_domain.toArray(update=False, keep_array=True)
 
-        fact_unp, fact_bip = fact_domain.toArray(update=False, keep_array=True)
-        valid_unp, valid_bip = valid_domain.toArray(update=False, keep_array=True)
-        test_unp, test_bip = test_domain.toArray(update=False, keep_array=True)
         tgt_pred_ls = test_domain.bip_ls[:-1]
-
-        global_unp = fact_unp + valid_unp + test_unp
-        global_bip = fact_bip + valid_bip + test_bip
 
         bg_domain = fact_domain
         if 'fb15k' in cmd_args.data_root:
             fbd = FBDomain(10)
 
     elif 'gqa' in cmd_args.data_root:
-
-        tgt_pred_ls = ['window', 'person', 'shirt', 'tree',
-                       'wall', 'building', 'ground', 'sky',
-                       'sign', 'head', 'pole', 'hand',
-                       'grass', 'hair', 'leg', 'car',
-                       'leaf', 'table', 'ear', 'pants']
 
         tgt_pred_ls = [line for line in iterline('freq_gqa.txt')]
 
@@ -86,7 +74,7 @@ def prep_dataset():
     return dataset, tgt_pred_ls, bg_domain, fbd
 
 
-def train2():
+def train():
     output_path = get_output_folder(cmd_args.output_root, run_name=cmd_args.run_name)
     makedir(output_path, remove_old=False)
     model_path = joinpath(output_path, 'best_model')
@@ -125,8 +113,6 @@ def train2():
         cmd_args.num_samples = 1
         tqdm.write('Doing averaging')
 
-    # init_name_ls, nest_name_ls, cand_ls = [], [], []
-    best_rule_ls = []
     shouldstop = False
     st = time.time()
     total_batch = 0
@@ -160,7 +146,6 @@ def train2():
                 bip_ls, input_x = fbd.filter(bip_ls, input_x, p_star)
             if bip_ls is None:
                 skip = True
-
 
             if not skip:
                 # [num_sample] loss
@@ -215,7 +200,11 @@ def train2():
     tqdm.write('testing..')
     with torch.no_grad():
         for pn, model in model_dict.items():
-            model.load_state_dict(torch.load(joinpath(model_path, str(pred_register.pred2ind[pn]))))
+            model_path = joinpath(model_path, str(pred_register.pred2ind[pn]))
+            if not os.path.isfile(model_path):
+                tqdm.write('No saved model for %s ' % pn)
+                continue
+            model.load_state_dict(torch.load(model_path))
         _, global_prf, global_f = inference(model_dict, dataset, dataset.test_pred2domain_dict,
                                                        tgt_pred_ls, bg_domain, fbd, skip_prob_dict)
         with open(joinpath(output_path, 'test_loss.txt'), 'w') as f:
@@ -299,7 +288,9 @@ def inference(model_dict, dataset, domain_dict, tgt_pred_ls, bg_domain, fbd, ski
     rule_ls = []
     g_pred_cnt, g_inter_cnt, g_y_cnt = 0, 0, 0
     rule_dict = dict()
-    for tgt_p in tgt_pred_ls:
+    pbar = tqdm(tgt_pred_ls)
+    for tgt_p in pbar:
+        pbar.set_description('Inferring facts for %s' % (tgt_p))
         # rotate over data w.r.t each p_star
         num_batches, epoch_iterator = dataset.sample(domain_dict,
                                                      cmd_args.batch_size,
@@ -350,6 +341,10 @@ def inference(model_dict, dataset, domain_dict, tgt_pred_ls, bg_domain, fbd, ski
             # acc_loss += loss
             cur_batch += 1
 
+        if y_cnt is None:
+            tqdm.write('skipping target %s as it does not exist in the domain' % (tgt_p))
+            continue
+
         y_cnt += 1e-8  # prevent div by 0
         pred_cnt += 1e-8
         joint_pred_cnt += 1e-8
@@ -365,14 +360,12 @@ def inference(model_dict, dataset, domain_dict, tgt_pred_ls, bg_domain, fbd, ski
         g_y_cnt += y_cnt[0]
 
         tgt_joint_str = 'tgt pred joint p %.4f r %.4f f %.4f' % (joint_p.item(), joint_r.item(), joint_f.item())
-        tqdm.write(tgt_joint_str)
         rule_ls.append(tgt_joint_str)
         for ind, cand in enumerate(name_ls[0][-1][-1]):
             tgt_p_rule = 'cnt %.4f p %.4f r %.4f f %.4f\t: %s <- %s' % (apply_cnt[ind].item(),
                                                                         p[ind].item(),
                                                                         r[ind].item(),
                                                                         f[ind].item(), tgt_p, cand)
-            tqdm.write(tgt_p_rule)
             rule_ls.append(tgt_p_rule)
 
         if skip_prob_dict[tgt_p] < joint_f.item():
@@ -384,6 +377,7 @@ def inference(model_dict, dataset, domain_dict, tgt_pred_ls, bg_domain, fbd, ski
     global_prf = 'global p %.4f r %.4f f %.4f' % (global_p.item(), global_r.item(), global_f.item())
     tqdm.write(global_prf)
     cmd_args.hard_sample, cmd_args.attn_temp, cmd_args.sample_neg = bak1, bak2, bak3
+
     return rule_ls, global_prf, global_f
 
 
@@ -522,4 +516,4 @@ if __name__ == '__main__':
     if cmd_args.test_only:
         kb_test(cmd_args.output_root)
     else:
-        train2()
+        train()
